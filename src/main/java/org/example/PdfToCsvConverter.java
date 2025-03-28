@@ -73,11 +73,14 @@ public class PdfToCsvConverter {
 
             ZipEntry zipEntry = new ZipEntry(new File(arquivoOrigem).getName());
             zipOut.putNextEntry(zipEntry);
-            byte[] bytes = new byte[1024];
-            int length;
-            while ((length = fis.read(bytes)) >= 0) ;
-            zipOut.write(bytes, 0, length);
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                zipOut.write(buffer, 0, bytesRead);
+                zipOut.closeEntry();
+            }
+            zipOut.closeEntry();
         }
     }
-
 }
